@@ -65,6 +65,40 @@ public class TerrainChunk {
         this.Terrain.Flush();
     }
 
+    public void PopulateTerrain(
+        GameObject prefab,
+        float      frequency,
+        int        resolution
+    ) {
+        for (float zRes = 0; zRes < resolution; zRes++) {
+            for (float xRes = 0; xRes < resolution; xRes++) {
+                float xCoordinate = this.Position.x + xRes / (resolution - 1);
+                float zCoordinate = this.Position.z + zRes / (resolution - 1);
+
+                if (Random.value > frequency) {
+                    Vector3 position = new Vector3(
+                        xCoordinate * resolution,
+                        0,
+                        zCoordinate * resolution
+                    );
+
+                    position.y = this.GetTerrainHeight(position);
+
+                    GameObject.Instantiate(
+                        prefab,
+                        position,
+                        Quaternion.identity,
+                        this.Terrain.transform
+                    );
+                }
+            }
+        }
+    }
+
+    public float GetTerrainHeight(Vector3 worldPosition) {
+        return this.Terrain.SampleHeight(worldPosition);
+    }
+
     private float[,] GenerateHeightmap() {
         float[,] heightmap = new float[
             this.Settings.HeightmapResolution,
@@ -96,12 +130,11 @@ public class TerrainChunk {
         return heightmap;
     }
 
-    private void ApplyTextures(TerrainData terrainData)
-    {
-        var flatSplat = new SplatPrototype();
+    private void ApplyTextures(TerrainData terrainData) {
+        var flatSplat  = new SplatPrototype();
         var steepSplat = new SplatPrototype();
 
-        flatSplat.texture = this.Settings.Texture;
+        flatSplat.texture  = this.Settings.Texture;
         steepSplat.texture = this.Settings.Texture;
 
         terrainData.splatPrototypes = new SplatPrototype[]
@@ -112,17 +145,25 @@ public class TerrainChunk {
 
         terrainData.RefreshPrototypes();
 
-        float[,,] splatMap = new float[terrainData.alphamapResolution, terrainData.alphamapResolution, 2];
+        float[,,] splatMap = new float[terrainData.alphamapResolution,
+        terrainData.alphamapResolution, 2];
 
-        for (int zRes = 0; zRes < terrainData.alphamapHeight; zRes++)
-        {
-            for (int xRes = 0; xRes < terrainData.alphamapWidth; xRes++)
-            {
-                float normalizedX = (float)xRes / (terrainData.alphamapWidth - 1);
-                float normalizedZ = (float)zRes / (terrainData.alphamapHeight - 1);
+        for (int zRes = 0; zRes < terrainData.alphamapHeight; zRes++) {
+            for (int xRes = 0; xRes < terrainData.alphamapWidth; xRes++) {
+                float normalizedX = (float) xRes / (terrainData.alphamapWidth -
+                1);
+                float normalizedZ = (float) zRes / (terrainData.alphamapHeight -
+                1);
 
-                float steepness = terrainData.GetSteepness(normalizedX, normalizedZ);
-                float steepnessNormalized = Mathf.Clamp(steepness / 1.5f, 0, 1f);
+                float steepness = terrainData.GetSteepness(
+                    normalizedX,
+                    normalizedZ
+                );
+                float steepnessNormalized = Mathf.Clamp(
+                    steepness / 1.5f,
+                    0,
+                    1f
+                );
 
                 splatMap[zRes, xRes, 0] = 1f - steepnessNormalized;
                 splatMap[zRes, xRes, 1] = steepnessNormalized;

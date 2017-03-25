@@ -5,6 +5,7 @@ using UnityEngine;
 public class TerrainGenerator : MonoBehaviour {
 
     public Texture2D Texture;
+    public GameObject TreePrefab;
 
     private INoiseProvider _noiseProvider;
     private TerrainChunkSettings _settings;
@@ -21,7 +22,7 @@ public class TerrainGenerator : MonoBehaviour {
         );
         this._cache    = new TerrainCache();
 
-        this.UpdateTerrain(Vector3.zero, 7);
+        this.UpdateTerrain(Vector3.zero, 1);
     }
 
     public void UpdateTerrain(Vector3 worldPosition, int radius) {
@@ -59,6 +60,8 @@ public class TerrainGenerator : MonoBehaviour {
         );
 
         chunk.CreateTerrain();
+        chunk.PopulateTerrain(this.TreePrefab, 0.99f, 129);
+
         this._cache.AddChunk(chunk);
     }
 

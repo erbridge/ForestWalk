@@ -172,7 +172,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 16695365}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 65.5, z: -10}
+  m_LocalPosition: {x: 0, y: 30, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Texture: {fileID: 2800000, guid: 0052b340e38854c2688bee9440edf67f, type: 3}
+  TreePrefab: {fileID: 1477873493929410, guid: f148e64f3a2c9447280d3c0e413df7fa, type: 2}
 --- !u!4 &1411656394
 Transform:
   m_ObjectHideFlags: 0
