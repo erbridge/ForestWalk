@@ -2,13 +2,7 @@ using UnityEngine;
 
 public class TerrainChunk {
 
-    public int X {
-        get;
-
-        private set;
-    }
-
-    public int Z {
+    public Vector2i Position {
         get;
 
         private set;
@@ -17,19 +11,19 @@ public class TerrainChunk {
     public Terrain Terrain {
         get;
 
-        set;
+        private set;
     }
 
     public TerrainChunkSettings Settings {
         get;
 
-        set;
+        private set;
     }
 
     public INoiseProvider NoiseProvider {
         get;
 
-        set;
+        private set;
     }
 
     public TerrainChunk(
@@ -40,8 +34,7 @@ public class TerrainChunk {
     ) {
         this.Settings = settings;
         this.NoiseProvider = noiseProvider;
-        this.X = x;
-        this.Z = z;
+        this.Position = new Vector2i(x, z);
     }
 
     public void CreateTerrain() {
@@ -50,7 +43,7 @@ public class TerrainChunk {
         terrainData.heightmapResolution = this.Settings.HeightmapResolution;
         terrainData.alphamapResolution  = this.Settings.AlphamapResolution;
 
-        var heightmap = this.GetHeightmap();
+        var heightmap = this.GenerateHeightmap();
 
         terrainData.SetHeights(0, 0, heightmap);
         terrainData.size = new Vector3(
@@ -59,18 +52,20 @@ public class TerrainChunk {
             this.Settings.Length
         );
 
+        this.ApplyTextures(terrainData);
+
         var newTerrainGameObject = Terrain.CreateTerrainGameObject(terrainData);
 
         newTerrainGameObject.transform.position = new Vector3(
-            this.X * this.Settings.Length,
+            this.Position.x * this.Settings.Length,
             0,
-            this.Z * this.Settings.Length
+            this.Position.z * this.Settings.Length
         );
         this.Terrain = newTerrainGameObject.GetComponent<Terrain>();
         this.Terrain.Flush();
     }
 
-    private float[,] GetHeightmap() {
+    private float[,] GenerateHeightmap() {
         float[,] heightmap = new float[
             this.Settings.HeightmapResolution,
             this.Settings.HeightmapResolution
@@ -86,9 +81,9 @@ public class TerrainChunk {
                 xRes < this.Settings.HeightmapResolution;
                 xRes++
             ) {
-                float xCoordinate = this.X +
+                float xCoordinate = this.Position.x +
                 (float) xRes / (this.Settings.HeightmapResolution - 1);
-                float zCoordinate = this.Z +
+                float zCoordinate = this.Position.z +
                 (float) zRes / (this.Settings.HeightmapResolution - 1);
 
                 heightmap[zRes, xRes] = this.NoiseProvider.GetValue(
@@ -99,6 +94,42 @@ public class TerrainChunk {
         }
 
         return heightmap;
+    }
+
+    private void ApplyTextures(TerrainData terrainData)
+    {
+        var flatSplat = new SplatPrototype();
+        var steepSplat = new SplatPrototype();
+
+        flatSplat.texture = this.Settings.Texture;
+        steepSplat.texture = this.Settings.Texture;
+
+        terrainData.splatPrototypes = new SplatPrototype[]
+        {
+            flatSplat,
+            steepSplat
+        };
+
+        terrainData.RefreshPrototypes();
+
+        float[,,] splatMap = new float[terrainData.alphamapResolution, terrainData.alphamapResolution, 2];
+
+        for (int zRes = 0; zRes < terrainData.alphamapHeight; zRes++)
+        {
+            for (int xRes = 0; xRes < terrainData.alphamapWidth; xRes++)
+            {
+                float normalizedX = (float)xRes / (terrainData.alphamapWidth - 1);
+                float normalizedZ = (float)zRes / (terrainData.alphamapHeight - 1);
+
+                float steepness = terrainData.GetSteepness(normalizedX, normalizedZ);
+                float steepnessNormalized = Mathf.Clamp(steepness / 1.5f, 0, 1f);
+
+                splatMap[zRes, xRes, 0] = 1f - steepnessNormalized;
+                splatMap[zRes, xRes, 1] = steepnessNormalized;
+            }
+        }
+
+        terrainData.SetAlphamaps(0, 0, splatMap);
     }
 
 }

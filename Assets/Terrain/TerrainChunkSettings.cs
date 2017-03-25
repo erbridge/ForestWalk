@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class TerrainChunkSettings {
 
     public int HeightmapResolution {
@@ -24,16 +26,24 @@ public class TerrainChunkSettings {
         private set;
     }
 
+    public Texture2D Texture {
+        get;
+
+        private set;
+    }
+
     public TerrainChunkSettings(
         int heightmapResolution,
         int alphamapResolution,
         int length,
-        int height
+        int height,
+        Texture2D texture
     ) {
         this.HeightmapResolution = heightmapResolution;
         this.AlphamapResolution  = alphamapResolution;
-        this.Length = length;
-        this.Height = height;
+        this.Length  = length;
+        this.Height  = height;
+        this.Texture = texture;
     }
 
 }
