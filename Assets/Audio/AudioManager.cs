@@ -1,0 +1,123 @@
+using System.Collections.Generic;
+using System.Collections;
+using System;
+using UnityEngine;
+
+public class AudioManager : MonoBehaviour {
+
+    public float HighVolume = 1f;
+    public float MidVolume  = 0.6f;
+    public float LowVolume  = 0.1f;
+
+    public float FocusFadeDuration   = 5f;
+    public float UnfocusFadeDuration = 5f;
+
+    public List<AudioClip> MusicClips;
+
+    private List<AudioSource> _musicSources;
+    private List<int> _musicSourceFoci;
+    private List<Coroutine> _musicSourceFadeCoroutines;
+
+    void Awake() {
+        this._musicSources = new List<AudioSource>();
+
+        foreach (AudioClip clip in this.MusicClips) {
+            AudioSource source = this.gameObject.AddComponent<AudioSource>();
+
+            source.clip   = clip;
+            source.volume = this.MidVolume;
+            source.loop   = true;
+
+            source.Play();
+
+            this._musicSources.Add(source);
+        }
+
+        this._musicSourceFoci = new List<int>();
+        this._musicSourceFadeCoroutines = new List<Coroutine>();
+    }
+
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.A)) {
+            this.FocusMusic(2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.S)) {
+            this.UnfocusMusic();
+        }
+    }
+
+    private void FocusMusic(int count) {
+        while (this._musicSourceFoci.Count < count) {
+            int index;
+
+            do {
+                index = UnityEngine.Random.Range(0, this._musicSources.Count);
+            } while (this._musicSourceFoci.Contains(index));
+
+            this._musicSourceFoci.Add(index);
+        }
+
+        this.StopAllMusicFades();
+
+        for (int i = 0; i < this._musicSources.Count; i++) {
+            AudioSource source = this._musicSources[i];
+            float targetVolume = this.LowVolume;
+
+            if (this._musicSourceFoci.Contains(i)) {
+                targetVolume = this.HighVolume;
+            }
+
+            this._musicSourceFadeCoroutines.Add(
+                this.StartCoroutine(
+                    this.FadeAudio(source, targetVolume, this.FocusFadeDuration)
+                )
+            );
+        }
+    }
+
+    private void UnfocusMusic() {
+        this.StopAllMusicFades();
+
+        foreach (AudioSource source in this._musicSources) {
+            this._musicSourceFadeCoroutines.Add(
+                this.StartCoroutine(
+                    this.FadeAudio(
+                        source,
+                        this.MidVolume,
+                        this.UnfocusFadeDuration
+                    )
+                )
+            );
+        }
+
+        this._musicSourceFoci.Clear();
+    }
+
+    private IEnumerator FadeAudio(
+        AudioSource source,
+        float       targetVolume,
+        float       duration
+    ) {
+        float initialVolume = source.volume;
+
+        float sign = Mathf.Sign(targetVolume - initialVolume);
+
+        while (sign * (targetVolume - source.volume) > 0) {
+            source.volume += sign * initialVolume * Time.deltaTime / duration;
+
+            yield return null;
+        }
+    }
+
+    private void StopAllMusicFades() {
+        foreach (Coroutine coroutine in this._musicSourceFadeCoroutines) {
+            try {
+                this.StopCoroutine(coroutine);
+            } catch (NullReferenceException) { }
+        }
+
+        this._musicSourceFadeCoroutines.Clear();
+    }
+
+}
