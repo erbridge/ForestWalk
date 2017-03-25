@@ -77,9 +77,9 @@ public class TerrainChunk {
 
                 if (Random.value > frequency) {
                     Vector3 position = new Vector3(
-                        xCoordinate * resolution,
+                        xCoordinate * (resolution - 1),
                         0,
-                        zCoordinate * resolution
+                        zCoordinate * (resolution - 1)
                     );
 
                     position.y = this.GetTerrainHeight(position);
@@ -145,8 +145,11 @@ public class TerrainChunk {
 
         terrainData.RefreshPrototypes();
 
-        float[,,] splatMap = new float[terrainData.alphamapResolution,
-        terrainData.alphamapResolution, 2];
+        float[,,] splatMap = new float[
+            terrainData.alphamapResolution,
+            terrainData.alphamapResolution,
+            2
+        ];
 
         for (int zRes = 0; zRes < terrainData.alphamapHeight; zRes++) {
             for (int xRes = 0; xRes < terrainData.alphamapWidth; xRes++) {
@@ -171,6 +174,6 @@ public class TerrainChunk {
         }
 
         terrainData.SetAlphamaps(0, 0, splatMap);
-    }
+    }  // ApplyTextures
 
 }

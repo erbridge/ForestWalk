@@ -21,8 +21,6 @@ public class TerrainGenerator : MonoBehaviour {
             this.Texture
         );
         this._cache    = new TerrainCache();
-
-        this.UpdateTerrain(Vector3.zero, 1);
     }
 
     public void UpdateTerrain(Vector3 worldPosition, int radius) {
@@ -33,22 +31,37 @@ public class TerrainGenerator : MonoBehaviour {
             radius
         );
 
-        List<Vector2i> loadedChunks   = this._cache.GetChunks();
-        List<Vector2i> chunksToRemove = loadedChunks.Except(
-            newPositions
-        ).ToList();
+        List<Vector2i> loadedChunks = this._cache.GetChunks();
 
         List<Vector2i> positionsToGenerate = newPositions.Except(
-            chunksToRemove
+            loadedChunks
         ).ToList();
 
         foreach (Vector2i position in positionsToGenerate) {
             this.GenerateChunk(position.x, position.z);
         }
 
+        List<Vector2i> chunksToRemove = loadedChunks.Except(
+            newPositions
+        ).ToList();
+
         foreach (Vector2i position in chunksToRemove) {
             this.RemoveChunk(position.x, position.z);
         }
+    }
+
+    public float GetTerrainHeight(Vector3 worldPosition) {
+        Vector2i chunkPosition = this.GetChunkPosition(worldPosition);
+
+        if (chunkPosition != null) {
+            TerrainChunk chunk = this._cache.GetChunk(chunkPosition);
+
+            if (chunk != null) {
+                return chunk.GetTerrainHeight(worldPosition);
+            }
+        }
+
+        return 0;
     }
 
     private void GenerateChunk(int x, int z) {
