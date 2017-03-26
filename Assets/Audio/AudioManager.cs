@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour {
     public int LowVolume      = -24;
 
     public float FocusFadeDuration   = 5f;
-    public float UnfocusFadeDuration = 5f;
+    public float UnfocusFadeDuration = 3f;
 
     public List<AudioClip> AmbienceClips;
     public List<AudioClip> MusicClips;
@@ -113,8 +113,9 @@ public class AudioManager : MonoBehaviour {
         AudioClip clip = this.FootstepClips[
             UnityEngine.Random.Range(0, this.FootstepClips.Count)
         ];
+        float volume = this.ConvertDecibelToLinear(this.AmbienceVolume);
 
-        this._footstepSource.PlayOneShot(clip, 1f);
+        this._footstepSource.PlayOneShot(clip, volume);
     }
 
     private IEnumerator FadeAudio(
