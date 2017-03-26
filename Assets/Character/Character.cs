@@ -33,7 +33,7 @@ public class Character : MonoBehaviour {
                 speed = this.RunSpeed;
             }
 
-            this.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            this.transform.Translate(Camera.main.transform.forward * speed * Time.deltaTime);
         }
 
         Vector3 position = this.transform.position;
