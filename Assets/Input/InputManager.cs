@@ -4,6 +4,7 @@ public class InputManager : MonoBehaviour {
 
     public Character Character;
     public CameraController CameraController;
+    public UIManager UIManager;
 
     void Awake() {
         Cursor.lockState = CursorLockMode.Locked;
@@ -11,11 +12,19 @@ public class InputManager : MonoBehaviour {
 
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
-            this.Character.ToggleMovement();
+            if (this.UIManager.IsUIVisible()) {
+                this.UIManager.HideUI();
+            } else {
+                this.Character.ToggleMovement();
+            }
         }
 
         if (Input.GetMouseButtonDown(1)) {
-            this.Character.ToggleRun();
+            if (this.UIManager.IsUIVisible()) {
+                this.UIManager.HideUI();
+            } else {
+                this.Character.ToggleRun();
+            }
         }
 
         Vector2 mouseDelta = new Vector2(
@@ -25,6 +34,14 @@ public class InputManager : MonoBehaviour {
 
         if (mouseDelta != Vector2.zero) {
             this.CameraController.UpdateRotation(mouseDelta);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            if (this.UIManager.IsUIVisible()) {
+                Application.Quit();
+            } else {
+                this.UIManager.ShowUI();
+            }
         }
     }
 
