@@ -184,6 +184,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114157236250071702, guid: 24f9c774e9ddb482a8c55771ff477b2c,
+        type: 2}
+      propertyPath: AudioManager
+      value: 
+      objectReference: {fileID: 1933075288}
     - target: {fileID: 114157793244986570, guid: 24f9c774e9ddb482a8c55771ff477b2c,
         type: 2}
       propertyPath: AudioManager
@@ -430,6 +435,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d91384cc3687d400b8c16f1abee6bce8, type: 3}
   - {fileID: 8300000, guid: fccb11bd2fd5c4eb8953b5d362be7c4a, type: 3}
   - {fileID: 8300000, guid: 30fc45962177a4a9b93f36dbda20b026, type: 3}
+  FootstepClips:
+  - {fileID: 8300000, guid: 14f11d35c834849f5adce1880c6b2965, type: 3}
+  - {fileID: 8300000, guid: b7e72c7126c994602815ec7a4ece3cf6, type: 3}
+  - {fileID: 8300000, guid: 86b5559a1064c4b10a4ef4e5e9f1ccf2, type: 3}
+  - {fileID: 8300000, guid: f5e251fd2fd434100829b4df9717ef37, type: 3}
+  - {fileID: 8300000, guid: 1211f43a51f664e9982232e868960348, type: 3}
+  - {fileID: 8300000, guid: 34ac1231889be45bf889a87ad4959006, type: 3}
+  - {fileID: 8300000, guid: 5e08f61fecdc44b1fac9f8402a02356d, type: 3}
+  - {fileID: 8300000, guid: 1bc0a713925b0496ebc06456e6711393, type: 3}
 --- !u!4 &1933075289
 Transform:
   m_ObjectHideFlags: 0

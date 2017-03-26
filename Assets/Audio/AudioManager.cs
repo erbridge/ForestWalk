@@ -6,19 +6,22 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour {
 
     public int AmbienceVolume = -6;
-    public int HighVolume = 0;
-    public int MidVolume  = -6;
-    public int LowVolume  = -24;
+    public int HighVolume     = 0;
+    public int MidVolume      = -6;
+    public int LowVolume      = -24;
 
     public float FocusFadeDuration   = 5f;
     public float UnfocusFadeDuration = 5f;
 
     public List<AudioClip> AmbienceClips;
     public List<AudioClip> MusicClips;
+    public List<AudioClip> FootstepClips;
 
     private List<AudioSource> _musicSources;
     private List<int> _musicSourceFoci;
     private List<Coroutine> _musicSourceFadeCoroutines;
+
+    private AudioSource _footstepSource;
 
     void Awake() {
         foreach (AudioClip clip in this.AmbienceClips) {
@@ -47,6 +50,8 @@ public class AudioManager : MonoBehaviour {
 
         this._musicSourceFoci = new List<int>();
         this._musicSourceFadeCoroutines = new List<Coroutine>();
+
+        this._footstepSource = this.gameObject.AddComponent<AudioSource>();
     }
 
     public void FocusMusic(int count) {
@@ -102,6 +107,14 @@ public class AudioManager : MonoBehaviour {
         }
 
         this._musicSourceFoci.Clear();
+    }
+
+    public void PlayFootstep() {
+        AudioClip clip = this.FootstepClips[
+            UnityEngine.Random.Range(0, this.FootstepClips.Count)
+        ];
+
+        this._footstepSource.PlayOneShot(clip, 1f);
     }
 
     private IEnumerator FadeAudio(
