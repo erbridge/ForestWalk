@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
-    public float HighVolume = 1f;
-    public float MidVolume  = 0.6f;
-    public float LowVolume  = 0.1f;
+    public int HighVolume = 0;
+    public int MidVolume  = -6;
+    public int LowVolume  = -24;
 
     public float FocusFadeDuration   = 5f;
     public float UnfocusFadeDuration = 5f;
@@ -25,7 +25,7 @@ public class AudioManager : MonoBehaviour {
             AudioSource source = this.gameObject.AddComponent<AudioSource>();
 
             source.clip   = clip;
-            source.volume = this.MidVolume;
+            source.volume = this.ConvertDecibelToLinear(this.MidVolume);
             source.loop   = true;
 
             source.Play();
@@ -56,10 +56,10 @@ public class AudioManager : MonoBehaviour {
 
         for (int i = 0; i < this._musicSources.Count; i++) {
             AudioSource source = this._musicSources[i];
-            float targetVolume = this.LowVolume;
+            float targetVolume = this.ConvertDecibelToLinear(this.LowVolume);
 
             if (this._musicSourceFoci.Contains(i)) {
-                targetVolume = this.HighVolume;
+                targetVolume = this.ConvertDecibelToLinear(this.HighVolume);
             }
 
             this._musicSourceFadeCoroutines.Add(
@@ -82,7 +82,7 @@ public class AudioManager : MonoBehaviour {
                 this.StartCoroutine(
                     this.FadeAudio(
                         source,
-                        this.MidVolume,
+                        this.ConvertDecibelToLinear(this.MidVolume),
                         this.UnfocusFadeDuration
                     )
                 )
@@ -116,6 +116,10 @@ public class AudioManager : MonoBehaviour {
         }
 
         this._musicSourceFadeCoroutines.Clear();
+    }
+
+    private float ConvertDecibelToLinear(int dB) {
+        return Mathf.Pow(10f, dB / 20f);
     }
 
 }
