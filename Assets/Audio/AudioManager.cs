@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
+    public int AmbienceVolume = -6;
     public int HighVolume = 0;
     public int MidVolume  = -6;
     public int LowVolume  = -24;
@@ -12,6 +13,7 @@ public class AudioManager : MonoBehaviour {
     public float FocusFadeDuration   = 5f;
     public float UnfocusFadeDuration = 5f;
 
+    public List<AudioClip> AmbienceClips;
     public List<AudioClip> MusicClips;
 
     private List<AudioSource> _musicSources;
@@ -19,6 +21,16 @@ public class AudioManager : MonoBehaviour {
     private List<Coroutine> _musicSourceFadeCoroutines;
 
     void Awake() {
+        foreach (AudioClip clip in this.AmbienceClips) {
+            AudioSource source = this.gameObject.AddComponent<AudioSource>();
+
+            source.clip   = clip;
+            source.volume = this.ConvertDecibelToLinear(this.AmbienceVolume);
+            source.loop   = true;
+
+            source.Play();
+        }
+
         this._musicSources = new List<AudioSource>();
 
         foreach (AudioClip clip in this.MusicClips) {

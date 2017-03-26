@@ -330,11 +330,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 677581e3805eb44489fb0aa9a4813cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AmbienceVolume: -6
   HighVolume: 0
   MidVolume: -6
   LowVolume: -24
   FocusFadeDuration: 5
   UnfocusFadeDuration: 5
+  AmbienceClips:
+  - {fileID: 8300000, guid: 13d6ac52c7ad84ca0aa19ee7092f2cb6, type: 3}
+  - {fileID: 8300000, guid: 29b9920c70db34172a23bca26440ae30, type: 3}
+  - {fileID: 8300000, guid: 9e60f745e9aed44aca2c08894cddfd98, type: 3}
   MusicClips:
   - {fileID: 8300000, guid: bc2895abdc07e48258ca1d5bd20ac7e4, type: 3}
   - {fileID: 8300000, guid: e86b178d6aa6242c6b40752d53f8d60d, type: 3}
