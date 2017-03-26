@@ -9,6 +9,7 @@ public class TerrainGenerator : MonoBehaviour {
     public GameObject RareTreePrefab;
     public GameObject BushPrefab;
     public GameObject FlowerPrefab;
+    public List<GameObject> CreaturePrefabs;
 
     private INoiseProvider _noiseProvider;
     private TerrainChunkSettings _settings;
@@ -76,10 +77,15 @@ public class TerrainGenerator : MonoBehaviour {
         );
 
         chunk.CreateTerrain();
+
         chunk.PopulateTerrain(this.TreePrefab, 0.99f, 129);
         chunk.PopulateTerrain(this.RareTreePrefab, 0.9995f, 129);
         chunk.PopulateTerrain(this.BushPrefab, 0.999f, 129);
         chunk.PopulateTerrain(this.FlowerPrefab, 0.99f, 129);
+
+        foreach (GameObject prefab in this.CreaturePrefabs) {
+            chunk.PopulateTerrain(prefab, 0.9995f, 129);
+        }
 
         this._cache.AddChunk(chunk);
     }

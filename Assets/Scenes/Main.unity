@@ -300,6 +300,10 @@ MonoBehaviour:
   BushPrefab: {fileID: 1477873493929410, guid: 0ad07f1bd28c347eda9afd5a9d3af094, type: 2}
   FlowerPrefab: {fileID: 1477873493929410, guid: 38dcf6b8dfabd4656a7839b26163923a,
     type: 2}
+  CreaturePrefabs:
+  - {fileID: 1285273747446104, guid: c24add0d2c9944fa58057b9e3f63c659, type: 2}
+  - {fileID: 1285273747446104, guid: 69626b1f181764a2d96829b14b47d634, type: 2}
+  - {fileID: 1285273747446104, guid: 59a0e1e4b4cc24fc4a38a41fd91c9e28, type: 2}
 --- !u!4 &1411656394
 Transform:
   m_ObjectHideFlags: 0
