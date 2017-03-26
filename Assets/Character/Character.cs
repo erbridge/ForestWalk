@@ -2,10 +2,17 @@ using UnityEngine;
 
 public class Character : MonoBehaviour {
 
+    public float WalkSpeed = 0.5f;
+
     public TerrainGenerator TerrainGenerator;
+    public Animator SpriteAnimator;
 
     void Update() {
-        this.transform.Translate(Vector3.forward * Time.deltaTime);
+        this.SpriteAnimator.SetBool("IsStill", false);
+
+        this.transform.Translate(
+            Vector3.forward * this.WalkSpeed * Time.deltaTime
+        );
 
         Vector3 position = this.transform.position;
 
