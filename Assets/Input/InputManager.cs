@@ -5,6 +5,10 @@ public class InputManager : MonoBehaviour {
     public Character Character;
     public CameraController CameraController;
 
+    void Awake() {
+        Cursor.visible = false;
+    }
+
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
             this.Character.ToggleMovement();
