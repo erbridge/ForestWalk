@@ -295,6 +295,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Texture: {fileID: 2800000, guid: 0052b340e38854c2688bee9440edf67f, type: 3}
   TreePrefab: {fileID: 1477873493929410, guid: f148e64f3a2c9447280d3c0e413df7fa, type: 2}
+  RareTreePrefab: {fileID: 1477873493929410, guid: 5e93481251f514f6da697579e18d5e0e,
+    type: 2}
   BushPrefab: {fileID: 1477873493929410, guid: 0ad07f1bd28c347eda9afd5a9d3af094, type: 2}
   FlowerPrefab: {fileID: 1477873493929410, guid: 38dcf6b8dfabd4656a7839b26163923a,
     type: 2}

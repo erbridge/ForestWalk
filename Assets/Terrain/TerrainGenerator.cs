@@ -6,6 +6,7 @@ public class TerrainGenerator : MonoBehaviour {
 
     public Texture2D Texture;
     public GameObject TreePrefab;
+    public GameObject RareTreePrefab;
     public GameObject BushPrefab;
     public GameObject FlowerPrefab;
 
@@ -76,6 +77,7 @@ public class TerrainGenerator : MonoBehaviour {
 
         chunk.CreateTerrain();
         chunk.PopulateTerrain(this.TreePrefab, 0.99f, 129);
+        chunk.PopulateTerrain(this.RareTreePrefab, 0.9995f, 129);
         chunk.PopulateTerrain(this.BushPrefab, 0.999f, 129);
         chunk.PopulateTerrain(this.FlowerPrefab, 0.99f, 129);
 
