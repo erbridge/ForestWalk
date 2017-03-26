@@ -181,6 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WalkSpeed: 0.5
+  RunSpeed: 2
+  AudioManager: {fileID: 0}
   TerrainGenerator: {fileID: 0}
   SpriteAnimator: {fileID: 95283690909857456}
 --- !u!124 &124678552782895758

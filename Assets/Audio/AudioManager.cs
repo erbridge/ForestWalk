@@ -37,17 +37,11 @@ public class AudioManager : MonoBehaviour {
         this._musicSourceFadeCoroutines = new List<Coroutine>();
     }
 
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.A)) {
-            this.FocusMusic(2);
+    public void FocusMusic(int count) {
+        if (this._musicSourceFoci.Count >= count) {
+            return;
         }
 
-        if (Input.GetKeyDown(KeyCode.S)) {
-            this.UnfocusMusic();
-        }
-    }
-
-    private void FocusMusic(int count) {
         while (this._musicSourceFoci.Count < count) {
             int index;
 
@@ -76,7 +70,11 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
-    private void UnfocusMusic() {
+    public void UnfocusMusic() {
+        if (this._musicSourceFoci.Count == 0) {
+            return;
+        }
+
         this.StopAllMusicFades();
 
         foreach (AudioSource source in this._musicSources) {
