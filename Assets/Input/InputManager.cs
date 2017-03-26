@@ -6,7 +6,7 @@ public class InputManager : MonoBehaviour {
     public CameraController CameraController;
 
     void Awake() {
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update() {
