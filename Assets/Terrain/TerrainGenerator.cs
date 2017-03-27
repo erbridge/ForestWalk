@@ -21,7 +21,7 @@ public class TerrainGenerator : MonoBehaviour {
             129,
             129,
             100,
-            20,
+            40,
             this.Texture
         );
         this._cache    = new TerrainCache();
