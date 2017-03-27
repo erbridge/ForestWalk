@@ -714,7 +714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 677581e3805eb44489fb0aa9a4813cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AmbienceVolume: -6
+  AmbienceVolume: -12
   HighVolume: 0
   MidVolume: -6
   LowVolume: -24

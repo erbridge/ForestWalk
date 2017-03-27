@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
-    public int AmbienceVolume = -6;
+    public int AmbienceVolume = -12;
     public int HighVolume     = 0;
     public int MidVolume      = -6;
     public int LowVolume      = -24;
