@@ -390,6 +390,8 @@ MonoBehaviour:
   - {fileID: 1477873493929410, guid: 0ad07f1bd28c347eda9afd5a9d3af094, type: 2}
   FlowerPrefabs:
   - {fileID: 1477873493929410, guid: 38dcf6b8dfabd4656a7839b26163923a, type: 2}
+  - {fileID: 1477873493929410, guid: d9133225f95624bc7b5b0177cd3ebbd6, type: 2}
+  - {fileID: 1477873493929410, guid: 04c61ba75a08b4b1695d7ceed732d2f9, type: 2}
   CreaturePrefabs:
   - {fileID: 1285273747446104, guid: c24add0d2c9944fa58057b9e3f63c659, type: 2}
   - {fileID: 1285273747446104, guid: 69626b1f181764a2d96829b14b47d634, type: 2}
