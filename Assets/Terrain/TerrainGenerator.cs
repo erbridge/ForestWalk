@@ -101,7 +101,7 @@ public class TerrainGenerator : MonoBehaviour {
 
         foreach (GameObject prefab in this.CreaturePrefabs) {
             chunk.PopulateTerrain(
-                prefab, 1f - 0.0005f / this.CreaturePrefabs.Count
+                prefab, 1f - 0.001f / this.CreaturePrefabs.Count
             );
         }
 
