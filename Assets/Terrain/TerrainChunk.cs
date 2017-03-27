@@ -62,6 +62,8 @@ public class TerrainChunk {
             this.Position.z * this.Settings.Length
         );
         this.Terrain = newTerrainGameObject.GetComponent<Terrain>();
+        this.Terrain.drawTreesAndFoliage = false;
+        this.Terrain.materialType = Terrain.MaterialType.BuiltInLegacyDiffuse;
         this.Terrain.Flush();
     }
 
