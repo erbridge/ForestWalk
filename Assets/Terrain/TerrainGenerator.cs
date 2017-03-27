@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour {
 
-    public Texture2D Texture;
+    public List<Texture2D> Textures;
     public List<GameObject> TreePrefabs;
     public List<GameObject> RareTreePrefabs;
     public List<GameObject> BushPrefabs;
@@ -22,7 +22,7 @@ public class TerrainGenerator : MonoBehaviour {
             129,
             100,
             40,
-            this.Texture
+            this.Textures
         );
         this._cache    = new TerrainCache();
     }

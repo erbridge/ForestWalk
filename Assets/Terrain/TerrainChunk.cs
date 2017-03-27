@@ -134,8 +134,8 @@ public class TerrainChunk {
         var flatSplat  = new SplatPrototype();
         var steepSplat = new SplatPrototype();
 
-        flatSplat.texture  = this.Settings.Texture;
-        steepSplat.texture = this.Settings.Texture;
+        flatSplat.texture  = this.Settings.Textures[0];
+        steepSplat.texture = this.Settings.Textures[1];
 
         terrainData.splatPrototypes = new SplatPrototype[]
         {
@@ -153,23 +153,27 @@ public class TerrainChunk {
 
         for (int zRes = 0; zRes < terrainData.alphamapHeight; zRes++) {
             for (int xRes = 0; xRes < terrainData.alphamapWidth; xRes++) {
-                float normalizedX = (float) xRes / (terrainData.alphamapWidth -
-                1);
-                float normalizedZ = (float) zRes / (terrainData.alphamapHeight -
-                1);
+                float normalizedX = (float) xRes /
+                (terrainData.alphamapWidth - 1);
+                float normalizedZ = (float) zRes /
+                (terrainData.alphamapHeight - 1);
 
-                float steepness = terrainData.GetSteepness(
-                    normalizedX,
-                    normalizedZ
-                );
-                float steepnessNormalized = Mathf.Clamp(
-                    steepness / 1.5f,
-                    0,
-                    1f
+                float val = this.NoiseProvider.GetValue(
+                    normalizedX * 15,
+                    normalizedZ * 15
                 );
 
-                splatMap[zRes, xRes, 0] = 1f - steepnessNormalized;
-                splatMap[zRes, xRes, 1] = steepnessNormalized;
+                if (val > 0.55f) {
+                    splatMap[zRes, xRes, 0] = 1;
+                    splatMap[zRes, xRes, 1] = 0;
+                } else if (val < 0.4f) {
+                    splatMap[zRes, xRes, 0] = 0;
+                    splatMap[zRes, xRes, 1] = 1;
+                } else {
+                    splatMap[zRes, xRes, 0] = 1f - val;
+                    splatMap[zRes, xRes, 1] = val;
+                }
+
             }
         }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TerrainChunkSettings {
@@ -26,7 +27,7 @@ public class TerrainChunkSettings {
         private set;
     }
 
-    public Texture2D Texture {
+    public List<Texture2D> Textures {
         get;
 
         private set;
@@ -37,13 +38,13 @@ public class TerrainChunkSettings {
         int alphamapResolution,
         int length,
         int height,
-        Texture2D texture
+        List<Texture2D> textures
     ) {
         this.HeightmapResolution = heightmapResolution;
         this.AlphamapResolution  = alphamapResolution;
-        this.Length  = length;
-        this.Height  = height;
-        this.Texture = texture;
+        this.Length   = length;
+        this.Height   = height;
+        this.Textures = textures;
     }
 
 }
