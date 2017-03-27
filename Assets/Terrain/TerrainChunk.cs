@@ -67,11 +67,9 @@ public class TerrainChunk {
         this.Terrain.Flush();
     }
 
-    public void PopulateTerrain(
-        GameObject prefab,
-        float      frequency,
-        int        resolution
-    ) {
+    public void PopulateTerrain(GameObject prefab, float frequency) {
+        int resolution = this.Settings.HeightmapResolution;
+
         for (float zRes = 0; zRes < resolution; zRes++) {
             for (float xRes = 0; xRes < resolution; xRes++) {
                 float xCoordinate = this.Position.x + xRes / (resolution - 1);

@@ -5,10 +5,10 @@ using UnityEngine;
 public class TerrainGenerator : MonoBehaviour {
 
     public Texture2D Texture;
-    public GameObject TreePrefab;
-    public GameObject RareTreePrefab;
-    public GameObject BushPrefab;
-    public GameObject FlowerPrefab;
+    public List<GameObject> TreePrefabs;
+    public List<GameObject> RareTreePrefabs;
+    public List<GameObject> BushPrefabs;
+    public List<GameObject> FlowerPrefabs;
     public List<GameObject> CreaturePrefabs;
 
     private INoiseProvider _noiseProvider;
@@ -78,13 +78,30 @@ public class TerrainGenerator : MonoBehaviour {
 
         chunk.CreateTerrain();
 
-        chunk.PopulateTerrain(this.TreePrefab, 0.99f, 129);
-        chunk.PopulateTerrain(this.RareTreePrefab, 0.9995f, 129);
-        chunk.PopulateTerrain(this.BushPrefab, 0.999f, 129);
-        chunk.PopulateTerrain(this.FlowerPrefab, 0.99f, 129);
+        foreach (GameObject prefab in this.TreePrefabs) {
+            chunk.PopulateTerrain(prefab, 1f - 0.01f / this.TreePrefabs.Count);
+        }
+
+        foreach (GameObject prefab in this.RareTreePrefabs) {
+            chunk.PopulateTerrain(
+                prefab, 1f - 0.0005f / this.RareTreePrefabs.Count
+            );
+        }
+
+        foreach (GameObject prefab in this.BushPrefabs) {
+            chunk.PopulateTerrain(prefab, 1f - 0.001f / this.BushPrefabs.Count);
+        }
+
+        foreach (GameObject prefab in this.FlowerPrefabs) {
+            chunk.PopulateTerrain(
+                prefab, 1f - 0.05f / this.FlowerPrefabs.Count
+            );
+        }
 
         foreach (GameObject prefab in this.CreaturePrefabs) {
-            chunk.PopulateTerrain(prefab, 0.9995f, 129);
+            chunk.PopulateTerrain(
+                prefab, 1f - 0.0005f / this.CreaturePrefabs.Count
+            );
         }
 
         this._cache.AddChunk(chunk);
