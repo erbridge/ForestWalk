@@ -2,15 +2,18 @@ using UnityEngine;
 
 public class Creature : MonoBehaviour {
 
-    public float MoveSpeed = 1f;
-    public bool ShouldFly = false;
+    public float MoveSpeed  = 1f;
+    public float JitterRate = 0.99f;
+    public bool  ShouldFly  = false;
+    public float MinHeight  = 2f;
+    public float MaxHeight  = 20f;
 
     public TerrainGenerator TerrainGenerator;
     public Animator SpriteAnimator;
     public SpriteRenderer SpriteRenderer;
 
     private Vector3 _moveDirection;
-    private float _height = 0;
+    private float   _height = 0;
 
     private States _state;
 
@@ -21,7 +24,7 @@ public class Creature : MonoBehaviour {
     }
 
     void Start() {
-        if (this.ShouldFly || Random.value > 0.2f) {
+        if (this.ShouldFly || (Random.value > 0.2f)) {
             this._state = States.Move;
 
             this.SpriteAnimator.SetBool("IsStill", false);
@@ -30,7 +33,6 @@ public class Creature : MonoBehaviour {
 
             this.SpriteAnimator.SetBool("IsStill", true);
         }
-
 
         if (Random.value > 0.5f) {
             this._moveDirection = Camera.main.transform.right;
@@ -41,12 +43,12 @@ public class Creature : MonoBehaviour {
         }
 
         if (this.ShouldFly) {
-            this._height = Random.Range(2f, 20f);
+            this._height = Random.Range(this.MinHeight, this.MaxHeight);
         }
     }
 
     void Update() {
-        if (!this.ShouldFly && Random.value > 0.995f) {
+        if (!this.ShouldFly && (Random.value > 0.995f)) {
             if (this._state == States.Idle) {
                 this._state = States.Move;
 
@@ -62,7 +64,7 @@ public class Creature : MonoBehaviour {
             float speed = this.MoveSpeed;
 
             if (Random.value > 0.6f) {
-                if (Random.value > 0.99f) {
+                if (Random.value > this.JitterRate) {
                     this.SpriteRenderer.flipX = !this.SpriteRenderer.flipX;
                 }
 
@@ -84,15 +86,21 @@ public class Creature : MonoBehaviour {
             position.y = this.TerrainGenerator.GetTerrainHeight(position);
         }
 
-        if (this.ShouldFly && this._state != States.Idle) {
-            this._height += Random.Range(-0.2f, 0.2f);
-            this._height = Mathf.Clamp(this._height, 2, 20);
+        if (this.ShouldFly && (this._state != States.Idle)) {
+            this._height += Random.Range(-1f, 1f) *
+            this.MoveSpeed / 2 * Time.deltaTime;
+
+            this._height = Mathf.Clamp(
+                this._height,
+                this.MinHeight,
+                this.MaxHeight
+            );
 
             position.y += this._height;
         }
 
         this.transform.position = position;
-    }
+    } // Update
 
     public void ToggleMovement() {
         if (this._state == States.Idle) {
