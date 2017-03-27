@@ -3,12 +3,14 @@ using UnityEngine;
 public class Creature : MonoBehaviour {
 
     public float MoveSpeed = 1f;
+    public bool ShouldFly = false;
 
     public TerrainGenerator TerrainGenerator;
     public Animator SpriteAnimator;
     public SpriteRenderer SpriteRenderer;
 
     private Vector3 _moveDirection;
+    private float _height = 0;
 
     private States _state;
 
@@ -19,7 +21,7 @@ public class Creature : MonoBehaviour {
     }
 
     void Start() {
-        if (Random.value > 0.2f) {
+        if (this.ShouldFly || Random.value > 0.2f) {
             this._state = States.Move;
 
             this.SpriteAnimator.SetBool("IsStill", false);
@@ -37,10 +39,14 @@ public class Creature : MonoBehaviour {
             this._moveDirection = -Camera.main.transform.right;
             this.SpriteRenderer.flipX = false;
         }
+
+        if (this.ShouldFly) {
+            this._height = Random.Range(2f, 20f);
+        }
     }
 
     void Update() {
-        if (Random.value > 0.995f) {
+        if (!this.ShouldFly && Random.value > 0.995f) {
             if (this._state == States.Idle) {
                 this._state = States.Move;
 
@@ -72,14 +78,20 @@ public class Creature : MonoBehaviour {
             );
         }
 
+        Vector3 position = this.transform.position;
+
         if (this.TerrainGenerator != null) {
-            Vector3 position = this.transform.position;
-
             position.y = this.TerrainGenerator.GetTerrainHeight(position);
-
-            this.transform.position = position;
         }
 
+        if (this.ShouldFly && this._state != States.Idle) {
+            this._height += Random.Range(-0.2f, 0.2f);
+            this._height = Mathf.Clamp(this._height, 2, 20);
+
+            position.y += this._height;
+        }
+
+        this.transform.position = position;
     }
 
     public void ToggleMovement() {
