@@ -19,10 +19,10 @@ public class CameraFacingBillboard : MonoBehaviour {
     }
 
     void LateUpdate() {
-        // this._spriteRenderer.sortingOrder = -1 *
-        // (int) this._camera.WorldToScreenPoint(
-        //     this._spriteRenderer.bounds.min
-        // ).y;
+        Vector3 delta = this.transform.position -
+        this._camera.transform.position;
+
+        this._spriteRenderer.sortingOrder = -1 * (int) delta.sqrMagnitude;
     }
 
 }
