@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-    public float RotationSpeed = 2f;
+    public float RotationSpeed = 1f;
 
     private Vector3    _offset;
     private Quaternion _rotation = Quaternion.identity;
