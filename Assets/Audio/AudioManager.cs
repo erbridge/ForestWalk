@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour {
     public int LowVolume      = -24;
 
     public float FocusFadeDuration   = 5f;
-    public float UnfocusFadeDuration = 3f;
+    public float UnfocusFadeDuration = 5f;
 
     public List<AudioClip> AmbienceClips;
     public List<AudioClip> MusicClips;
@@ -124,14 +124,15 @@ public class AudioManager : MonoBehaviour {
         float       duration
     ) {
         float initialVolume = source.volume;
+        float t = 0;
 
-        float sign = Mathf.Sign(targetVolume - initialVolume);
+        do {
+            t += Time.deltaTime / duration;
 
-        while (sign * (targetVolume - source.volume) > 0) {
-            source.volume += sign * initialVolume * Time.deltaTime / duration;
+            source.volume = Mathf.Lerp(initialVolume, targetVolume, t);
 
             yield return null;
-        }
+        } while (t < 1);
     }
 
     private void StopAllMusicFades() {
