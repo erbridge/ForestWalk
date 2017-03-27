@@ -7,6 +7,7 @@ public class Character : MonoBehaviour {
 
     public AudioManager AudioManager;
     public TerrainGenerator TerrainGenerator;
+    public CameraController CameraController;
     public Animator SpriteAnimator;
 
     private States _state;
@@ -26,13 +27,15 @@ public class Character : MonoBehaviour {
     }
 
     void Update() {
-        if (this._state != States.Idle) {
-            float speed = this.WalkSpeed;
+        float speed = 0f;
 
-            if (this._state == States.Run) {
-                speed = this.RunSpeed;
-            }
+        if (this._state == States.Walk) {
+            speed = this.WalkSpeed;
+        } else if (this._state == States.Run) {
+            speed = this.RunSpeed;
+        }
 
+        if (speed > 0) {
             this.transform.Translate(
                 Camera.main.transform.forward * speed * Time.deltaTime
             );
@@ -54,12 +57,16 @@ public class Character : MonoBehaviour {
             this.SpriteAnimator.SetBool("IsStill", false);
 
             this.AudioManager.UnfocusMusic();
+
+            this.CameraController.ResetFov();
         } else {
             this._state = States.Idle;
 
             this.SpriteAnimator.SetBool("IsStill", true);
 
             this.AudioManager.FocusMusic(2);
+
+            this.CameraController.PullOutFov();
         }
 
         this.SpriteAnimator.SetBool("IsRunning", false);
@@ -70,10 +77,14 @@ public class Character : MonoBehaviour {
             this._state = States.Walk;
 
             this.SpriteAnimator.SetBool("IsRunning", false);
+
+            this.CameraController.ResetFov();
         } else {
             this._state = States.Run;
 
             this.SpriteAnimator.SetBool("IsRunning", true);
+
+            this.CameraController.PullInFov();
         }
 
         this.SpriteAnimator.SetBool("IsStill", false);

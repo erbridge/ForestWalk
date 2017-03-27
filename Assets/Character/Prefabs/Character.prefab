@@ -228,6 +228,7 @@ MonoBehaviour:
   RunSpeed: 2
   AudioManager: {fileID: 0}
   TerrainGenerator: {fileID: 0}
+  CameraController: {fileID: 114648170721763232}
   SpriteAnimator: {fileID: 95283690909857456}
 --- !u!114 &114333216017020016
 MonoBehaviour:
@@ -252,6 +253,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotationSpeed: 1
+  MinFov: 45
+  NormalFov: 60
+  MaxFov: 120
 --- !u!124 &124678552782895758
 Behaviour:
   m_ObjectHideFlags: 1
