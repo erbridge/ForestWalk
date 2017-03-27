@@ -72,6 +72,7 @@ public class TerrainGenerator : MonoBehaviour {
         TerrainChunk chunk = new TerrainChunk(
             this._settings,
             this._noiseProvider,
+            this,
             x,
             z
         );

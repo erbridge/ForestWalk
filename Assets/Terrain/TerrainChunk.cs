@@ -26,15 +26,20 @@ public class TerrainChunk {
         private set;
     }
 
+    private TerrainGenerator _terrainGenerator;
+
     public TerrainChunk(
         TerrainChunkSettings settings,
         INoiseProvider       noiseProvider,
+        TerrainGenerator     terrainGenerator,
         int                  x,
         int                  z
     ) {
         this.Settings = settings;
         this.NoiseProvider = noiseProvider;
         this.Position = new Vector2i(x, z);
+
+        this._terrainGenerator = terrainGenerator;
     }
 
     public void CreateTerrain() {
@@ -84,12 +89,18 @@ public class TerrainChunk {
 
                     position.y = this.GetTerrainHeight(position);
 
-                    GameObject.Instantiate(
+                    GameObject obj = (GameObject) Object.Instantiate(
                         prefab,
                         position,
                         Quaternion.identity,
                         this.Terrain.transform
                     );
+
+                    Creature creature = obj.GetComponentInChildren<Creature>();
+
+                    if (creature != null) {
+                        creature.TerrainGenerator = this._terrainGenerator;
+                    }
                 }
             }
         }
@@ -103,7 +114,7 @@ public class TerrainChunk {
         float[,] heightmap = new float[
             this.Settings.HeightmapResolution,
             this.Settings.HeightmapResolution
-            ];
+        ];
 
         for (
             int zRes = 0;

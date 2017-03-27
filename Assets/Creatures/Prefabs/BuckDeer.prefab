@@ -111,8 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bbf8b2c8c5704a41b85bfdf6acf45b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 1
+  MoveSpeed: 5
+  TerrainGenerator: {fileID: 0}
   SpriteAnimator: {fileID: 95283690909857456}
+  SpriteRenderer: {fileID: 212767148032565356}
 --- !u!212 &212767148032565356
 SpriteRenderer:
   m_ObjectHideFlags: 1
